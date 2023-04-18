@@ -12,7 +12,7 @@ class MpesaController extends Controller
     public function mpesas()
     {
         // $mpesas = Mpesa::all();
-        return view('mpesas', ['mpesas' => Mpesa::all(), 'radios' => Radio::all()]);
+        return view('mpesas', ['mpesas' => Mpesa::all()]);
     }
     public function add_mpesa(Request $request)
     {
@@ -46,6 +46,6 @@ class MpesaController extends Controller
         $ApiController = new DarajaApiController;
         $registration = $ApiController->registerURL($data);
 
-        return back()->with('message', $registration);
+        return back()->with('message', $registration->errorMessage);
     }
 }

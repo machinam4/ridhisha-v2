@@ -51,14 +51,14 @@
                             <form action="{{ Route('login') }}" method="post">
                                 @csrf
                                 <div class="form-group mb-2">
-                                    <label class="form-label">Enter Email</label>
-                                    <input type="email" name="email" class="form-control"
-                                        placeholder="name@sitename.com">
+                                    <label class="form-label">Enter Username</label>
+                                    <input type="text" name="username" class="form-control" placeholder="username"
+                                        required>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label class="form-label">Enter Password</label>
                                     <input type="password" name="password" class="form-control"
-                                        placeholder="Allow only max 14 character">
+                                        placeholder="Allow only max 14 character" required>
                                 </div>
                                 <button class="btn btn-primary mb-4">Login</button>
                             </form>

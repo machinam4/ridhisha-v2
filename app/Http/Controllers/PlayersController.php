@@ -10,14 +10,21 @@ class PlayersController extends Controller
 {
     public function confirmation(Request $request)
     {
-        $insession = Presenter_Sessions::where('status', 1)->where('shortcode', $request->BusinessShortCode)->first();
+        if ($request->TransactionType === 'Pay Bill') {
+            $insession = Presenter_Sessions::where('status', 1)->where('account', 'LIKE', '%' . $request->BillRefNumber . '%')->first();
+        } else {
+            $insession = Presenter_Sessions::where('status', 1)->where('shortcode', $request->BusinessShortCode)->first();
+        }
+
+        // dd($insession);
         $presenter = 1;
+        $session_id = 1;
         if ($insession != null) {
+            $session_id = $insession->id;
             $presenter = $insession->presenter->id;
         }
         $data = json_decode($request->getContent());
 
-        // dd($data);
         Players::create([
             'TransactionType' => $data->TransactionType,
             'TransID' => $data->TransID,
@@ -31,6 +38,7 @@ class PlayersController extends Controller
             'MSISDN' => $data->MSISDN,
             'FirstName' => $data->FirstName,
             'user_id' => $presenter,
+            'session_id' => $session_id,
         ]);
 
         // Players::create([

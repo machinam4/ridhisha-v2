@@ -19,6 +19,7 @@ return new class extends Migration
             $table->id();
             $table->string('firstname');
             $table->string('lastname');
+            $table->string('username');
             $table->integer('radio_id');
             $table->string('role');
             $table->string('email')->unique();
@@ -33,10 +34,11 @@ return new class extends Migration
             array(
                 'firstname' => 'account',
                 'lastname' => 'ridhisha',
+                'username' => 'RidhishaJamii',
                 'radio_id' => 1,
                 'role' => 'admin',
                 'email' => 'ridhishajamii@gmail.com',
-                'password' => Hash::make('ridhishajamii'),
+                'password' => Hash::make('Ridhisha@jamii1'),
             )
         );
     }

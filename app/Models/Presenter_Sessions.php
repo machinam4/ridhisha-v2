@@ -13,6 +13,8 @@ class Presenter_Sessions extends Model
         'user_id',
         'radio_id',
         'shortcode',
+        'code_type',
+        'account',
         'status'
     ];
 
@@ -24,5 +26,10 @@ class Presenter_Sessions extends Model
     public function presenter()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function players()
+    {
+        return $this->hasMany(Players::class, 'session_id');
     }
 }

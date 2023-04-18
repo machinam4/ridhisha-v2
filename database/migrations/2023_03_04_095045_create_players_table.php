@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string("MSISDN")->nullable();
             $table->string("FirstName")->nullable();
             $table->integer("user_id")->default(1);
+            $table->integer("session_id")->default(0);
             $table->timestamps();
         });
     }

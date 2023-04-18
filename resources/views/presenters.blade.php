@@ -12,7 +12,7 @@
         <div class="col-sm-12 col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h5>current players</h5>
+                    <h5>Presenters</h5>
                 </div>
                 <div class="card-body">
                     <button class="btn btn-primary m-b-20 md-trigger" data-modal="modal-11">+ Add Presenter</button>
@@ -21,6 +21,7 @@
                             <thead>
                                 <tr>
                                     <th>Names</th>
+                                    <th>Username</th>
                                     <th>Email</th>
                                     <th>Radio</th>
                                     <th>Created At</th>
@@ -31,6 +32,7 @@
                                 @foreach ($presenters as $presenter)
                                     <tr>
                                         <td>{{ $presenter->firstname }} {{ $presenter->lastname }}</td>
+                                        <td>{{ $presenter->username }}</td>
                                         <td>{{ $presenter->email }}</td>
                                         <td>{{ $presenter->radio->name }}</td>
                                         <td>{{ $presenter->created_at }}</td>
@@ -57,6 +59,12 @@
                                                                 <input type="text" name="lastname"
                                                                     value="{{ $presenter->lastname }}" class="form-control"
                                                                     placeholder="Enter last name">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label">Username</label>
+                                                                <input type="text" name="username"
+                                                                    value="{{ $presenter->lastname }}" class="form-control"
+                                                                    placeholder="Enter Login Username">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">Email address</label>
@@ -88,6 +96,9 @@
                                                 </div>
                                             </div>
                                             {{-- Add presenter ModaL --}}
+                                            <button type="button" class="btn btn-success"
+                                                onclick="window.location='{{ Route('presenter_view', $presenter) }}';">View
+                                                Records</button>
                                             <button type="button" class="btn btn-danger"
                                                 onclick="deleteItem({{ $presenter }})">Delete</button>
                                         </td>
@@ -123,6 +134,10 @@
                     <div class="form-group">
                         <label class="form-label">Email address</label>
                         <input type="email" name="email" class="form-control" placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Username</label>
+                        <input type="text" name="username" class="form-control" placeholder="Enter Login Username">
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="exampleInputPassword1">Password</label>

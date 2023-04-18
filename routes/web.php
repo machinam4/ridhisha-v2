@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware(['auth'])->get('/', function () {
+// Route::get('/', function () {
+//     dd(now()->subMonth());
 //     return view('welcome');
 // });
 Route::middleware(['auth'])->controller(PresenterController::class)->group(function () {
@@ -38,6 +39,7 @@ Route::prefix('/admin')->middleware(['auth'])->middleware('presenter')->group(fu
 
     Route::controller(PresenterController::class)->prefix('/presenters')->group(function () {
         Route::get('/', 'presenters')->name('presenters');
+        Route::get('/{presenter}', 'presenter_view')->name('presenter_view');
         Route::Post('/add', 'add_presenter')->name('add_presenter');
         Route::Post('/update/{presenter}', 'update_presenter')->name('update_presenter');
         Route::get('/delete/{presenter}', 'delete_presenter')->name('delete_presenter');
@@ -47,6 +49,7 @@ Route::prefix('/admin')->middleware(['auth'])->middleware('presenter')->group(fu
         Route::get('/', 'radios')->name('radios');
         Route::Post('/add', 'add_radio')->name('add_radio');
         Route::Post('/update/{radio}', 'update_radio')->name('update_radio');
+        Route::Post('/mpesas/{radio}', 'link_mpesas')->name('link_mpesas');
         Route::get('/delete/{radio}', 'delete_radio')->name('delete_radio');
     });
 

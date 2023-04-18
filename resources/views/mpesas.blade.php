@@ -31,7 +31,7 @@
                             <thead>
                                 <tr>
                                     <th>Mpesa ShortCode</th>
-                                    <th>Radio Station</th>
+                                    <th>Radio Stations</th>
                                     <th>Type</th>
                                     <th>Organization Name</th>
                                     <th>M-pesa Username</th>
@@ -43,7 +43,13 @@
                                 @foreach ($mpesas as $mpesa)
                                     <tr>
                                         <td>{{ $mpesa->shortcode }}</td>
-                                        <td>{{ $mpesa->radio->name }}</td>
+                                        <td>
+                                            @foreach ($mpesa->radio as $radio)
+                                                <ul>
+                                                    <li>{{ $radio->radio->name }}</li>
+                                                </ul>
+                                            @endforeach
+                                        </td>
                                         <td>
                                             @if ($mpesa->type === 'till')
                                                 Till / Buy Goods
@@ -55,39 +61,6 @@
                                         <td>{{ $mpesa->username }}</td>
                                         <td>{{ $mpesa->created_at }}</td>
                                         <td>
-                                            <button class="btn btn-warning md-trigger"
-                                                data-modal="modal-edit-{{ $mpesa->id }}">Edit</button>
-                                            {{-- Edit Mpesa ModaL --}}
-                                            <div class="md-modal md-effect-11" id="modal-edit-{{ $mpesa->id }}">
-                                                <div class="md-content">
-                                                    <h3 class="bg-primary">Edit {{ $mpesa->shortcode }}</h3>
-                                                    <div>
-                                                        <form action="{{ Route('update_mpesa', $mpesa) }}" method="post">
-                                                            @csrf
-                                                            <div class="form-group">
-                                                                <label class="form-label" for="exampleSelect1">Radio
-                                                                    Linked</label>
-                                                                <select class="form-control" id="exampleSelect1"
-                                                                    name="radio_id">
-                                                                    @foreach ($radios as $radio)
-                                                                        <option value="{{ $radio->id }}"
-                                                                            @selected($radio->id === $mpesa->radio->id)>
-                                                                            {{ $radio->name }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                            <button type="submit"
-                                                                class="btn btn-success mt-2 mb-2">Submit</button>
-                                                        </form>
-                                                        <div>
-
-                                                            <button class="btn btn-light md-close">Cancel</button>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {{-- Add radio ModaL --}}
                                             <a type="button" class="btn btn-success"
                                                 href="{{ Route('registerurl', $mpesa) }}">Register Url</a>
                                             <button type="button" class="btn btn-danger"
@@ -144,14 +117,6 @@
                     <div class="form-group">
                         <label class="form-label">PassKey</label>
                         <input type="password" name="passkey" class="form-control" placeholder="passkey">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label" for="exampleSelect1">Radio Linked</label>
-                        <select class="form-control" id="exampleSelect1" name="radio_id">
-                            @foreach ($radios as $radio)
-                                <option value="{{ $radio->id }}">{{ $radio->name }}</option>
-                            @endforeach
-                        </select>
                     </div>
                     <button type="submit" class="btn btn-success mt-2 mb-2">Submit</button>
                 </form>

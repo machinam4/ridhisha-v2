@@ -18,11 +18,11 @@ class Mpesa extends Model
         'secret',
         'passkey',
         'b2cPassword',
-        'radio_id',
+        // 'radio_id',
     ];
 
     public function radio()
     {
-        return $this->belongsTo(Radio::class, 'radio_id');
+        return $this->hasMany(Radio_Mpesa::class);
     }
 }

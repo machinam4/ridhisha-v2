@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('secret');
             $table->string('passkey')->nullable();
             $table->string('b2cPassword')->nullable();
-            $table->integer('radio_id')->default(1);
+            // $table->integer('radio_id')->default(1);
             $table->timestamps();
         });
     }

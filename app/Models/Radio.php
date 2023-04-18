@@ -16,6 +16,6 @@ class Radio extends Model
 
     public function mpesas()
     {
-        return $this->hasMany(Mpesa::class);
+        return $this->hasMany(Radio_Mpesa::class);
     }
 }

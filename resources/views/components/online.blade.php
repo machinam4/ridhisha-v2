@@ -9,7 +9,7 @@
                         <h6 class="m-b-20">Total This Session</h6>
                         <h2 class="text-left"><span id="totalAmount">Loading...</span></h2>
                         <p class="m-b-0 text-right">Started At
-                            {{ auth()->user()->sessions->last()->created_at->format('H:m:s') }} <span
+                            {{ auth()->user()->sessions->last()->created_at->format('H:i:s') }} <span
                                 class="float-left">Shortcode:
                                 {{ auth()->user()->sessions->last()->shortcode }}</span></p>
                     </div>

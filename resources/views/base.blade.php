@@ -217,8 +217,8 @@
                                                     Shortcode</label>
                                                 <select class="form-control" id="exampleSelect1" name="shortcode">
                                                     @foreach (auth()->user()->radio->mpesas as $mpesa)
-                                                        <option value="{{ $mpesa->shortcode }}">
-                                                            {{ $mpesa->shortcode }}</option>
+                                                        <option value="{{ $mpesa->id }}">
+                                                            {{ $mpesa->mpesa->shortcode }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

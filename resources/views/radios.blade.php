@@ -4,6 +4,8 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/data-tables/css/datatables.min.css') }}">
     <!-- modal-window-effects css  -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/modal-window-effects/css/md-modal.css') }}">
+    <!-- select2 css -->
+    <link rel="stylesheet" href="{{ asset('assets/css/plugins/bootstrap-select.min.css') }}">
 @endsection
 @section('contents')
     <!-- [ Main Content ] start -->
@@ -34,7 +36,7 @@
                                         <td>
                                             <ul>
                                                 @foreach ($radio->mpesas as $mpesa)
-                                                    <li>{{ $mpesa->shortcode }}</li>
+                                                    <li>{{ $mpesa->mpesa->shortcode }}</li>
                                                 @endforeach
                                             </ul>
                                         </td>
@@ -43,19 +45,11 @@
                                         <td>
                                             <button class="btn btn-warning md-trigger"
                                                 data-modal="modal-edit-{{ $radio->id }}">Edit</button>
-                                            {{-- Add radio ModaL --}}
+                                            {{-- Edit radio ModaL --}}
                                             <div class="md-modal md-effect-11" id="modal-edit-{{ $radio->id }}">
                                                 <div class="md-content">
                                                     <h3 class="bg-primary">Edit {{ $radio->name }}</h3>
                                                     <div>
-                                                        {{-- <div class="alert alert-primary">
-                                                            <div class="media align-items-center">
-                                                                <i class="feather icon-alert-circle h2"></i>
-                                                                <div class="media-body ml-3">
-                                                                    Basic HTML form components with custom style.
-                                                                </div>
-                                                            </div>
-                                                        </div> --}}
                                                         <form action="{{ Route('update_radio', $radio) }}" method="post">
                                                             @csrf
                                                             <div class="form-group">
@@ -81,7 +75,42 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            {{-- Add radio ModaL --}}
+                                            {{-- Edit radio ModaL --}}
+
+                                            <button class="btn btn-success md-trigger"
+                                                data-modal="modal-mpesa-{{ $radio->id }}">Add Mpesas</button>
+                                            {{-- Edit radio ModaL --}}
+                                            <div class="md-modal md-effect-11" id="modal-mpesa-{{ $radio->id }}">
+                                                <div class="md-content">
+                                                    <h3 class="bg-primary">Edit {{ $radio->name }}</h3>
+                                                    <div>
+                                                        <form action="{{ Route('link_mpesas', $radio) }}" method="post">
+                                                            @csrf
+                                                            <div class="form-group row">
+                                                                <label class="col-form-label col-sm-12">Select
+                                                                    Shortcodes</label>
+                                                                <div class="col-sm-12">
+                                                                    <select class="form-control pc-selectpicker"
+                                                                        name="mpesas[]" multiple required>
+                                                                        @foreach ($mpesas as $mpesa)
+                                                                            <option value="{{ $mpesa->id }}">
+                                                                                {{ $mpesa->shortcode }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <button type="submit"
+                                                                class="btn btn-success mt-2 mb-2">Submit</button>
+                                                        </form>
+                                                        <div>
+
+                                                            <button class="btn btn-light md-close">Cancel</button>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {{-- Edit radio ModaL --}}
                                             <button type="button" class="btn btn-danger"
                                                 onclick="deleteItem({{ $radio }})">Delete</button>
                                         </td>
@@ -141,7 +170,9 @@
     <script src="{{ asset('assets/plugins/modal-window-effects/js/classie.js') }}"></script>
     <script src="{{ asset('assets/plugins/modal-window-effects/js/modalEffects.js') }}"></script>
     <script src="{{ asset('assets/plugins/sweetalert/js/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/bootstrap-select.min.js') }}"></script>
     <script>
+        $('.pc-selectpicker').selectpicker();
         // [ sweet-warning ]
         function deleteItem(item) {
             swal({

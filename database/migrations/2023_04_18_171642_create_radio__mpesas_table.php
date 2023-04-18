@@ -13,14 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('presenter__sessions', function (Blueprint $table) {
+        Schema::create('radio__mpesas', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
+            $table->integer('mpesa_id');
             $table->integer('radio_id');
-            $table->string('shortcode');
-            $table->string('code_type');
-            $table->string('account');
-            $table->integer('status');
+            $table->string('account')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('presenter__sessions');
+        Schema::dropIfExists('radio__mpesas');
     }
 };

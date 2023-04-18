@@ -23,24 +23,69 @@
                 <div class="card-body">
                     <div class="dt-responsive table-responsive">
                         <table id="add-row-table" class="table  table-striped table-bordered nowrap">
-                            <thead>
-                                <tr>
+                            {{-- if admin --}}
+                            @if (auth()->user()->role === 'admin')
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($dailyTotals as $total)
+                                        <tr>
+                                            <td>{{ $total->TransTime }}</td>
+                                            <td>{{ $total->TransAmount }}</td>
+                                        </tr>
+                                    @endforeach
+                                <tfoot>
                                     <th>Date</th>
                                     <th>Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($dailyTotals as $total)
+                                </tfoot>
+                                </tbody>
+                            @else
+                                {{-- if presenter --}}
+                                <thead>
                                     <tr>
-                                        <td>{{ $total->TransTime }}</td>
-                                        <td>{{ $total->TransAmount }}</td>
+                                        <th>Date</th>
+                                        <th>Session Start</th>
+                                        <th>Session End</th>
+                                        <th>Duration</th>
+                                        <th>Amount</th>
                                     </tr>
-                                @endforeach
-                                <tr>
-                                    <td>Date</td>
-                                    <td>Amount</td>
-                                </tr>
-                            </tbody>
+                                </thead>
+                                <tbody>
+                                    @foreach ($dailyTotals as $session)
+                                        <tr>
+                                            <td>{{ $session->created_at->format('d-M-Y') }}</td>
+                                            <td>{{ $session->created_at->format('H:i:s') }}</td>
+                                            @if ($session->created_at->diffInMinutes($session->updated_at) === 0)
+                                                <td class="fw-bold text-warning">Ongoing</td>
+                                                <td>{{ $session->created_at->diffInMinutes(now()) }}
+                                                    &nbsp;Minutes
+                                                </td>
+                                            @else
+                                                <td>{{ $session->updated_at->format('H:i:s') }}</td>
+                                                <td>{{ $session->created_at->diffInMinutes($session->updated_at) }}
+                                                    &nbsp;Minutes
+                                                </td>
+                                            @endif
+
+                                            <td>
+                                                <h5 class=" text-success">{{ $session->players->sum('TransAmount') }}</h5>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                <tfoot>
+                                    <th>Date</th>
+                                    <th>Session Start</th>
+                                    <th>Session End</th>
+                                    <th>Duration</th>
+                                    <th>Amount</th>
+                                </tfoot>
+                                </tbody>
+                                {{-- end table --}}
+                            @endif
                         </table>
                     </div>
                 </div>
@@ -58,7 +103,7 @@
         $(document).ready(function() {
             var t = $('#add-row-table').DataTable({
                 order: [
-                    [0, 'desc']
+                    [2, 'desc']
                 ],
             });
         })
