@@ -11,7 +11,7 @@ class PlayersController extends Controller
     public function confirmation(Request $request)
     {
         if ($request->TransactionType === 'Pay Bill') {
-            $insession = Presenter_Sessions::where('status', 1)->where('account', 'LIKE', '%' . $request->BillRefNumber . '%')->first();
+            $insession = Presenter_Sessions::where('status', 1)->where('shortcode', $request->BusinessShortCode)->where('account', 'LIKE', '%' . $request->BillRefNumber . '%')->first();
         } else {
             $insession = Presenter_Sessions::where('status', 1)->where('shortcode', $request->BusinessShortCode)->first();
         }

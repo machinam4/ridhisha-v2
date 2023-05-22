@@ -21,6 +21,17 @@
             <div class="card">
                 <div class="card-header">
                     <h5>{{ $presenter->firstname . ' ' . $presenter->lastname }}</h5>
+                    <ul class="navbar-nav ml-auto">
+                        @if ($presenter->insession())
+                            <li>
+                                <form action="{{ Route('stop_presenter_session', $presenter) }}" method="POST">
+                                    @csrf
+                                    <button class="btn btn-danger" type="submit">END
+                                        LIVE</button>
+                                </form>
+                            </li>
+                        @endif
+                    </ul>
                 </div>
                 <div class="card-body">
                     <div class="dt-responsive table-responsive">

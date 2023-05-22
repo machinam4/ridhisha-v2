@@ -127,6 +127,7 @@
             <a href="#!" class="mob-toggler"></a>
 
             <ul class="navbar-nav ml-auto">
+
                 @if (auth()->user()->insession())
                     <li>
                         <form action="{{ Route('stop_session') }}" method="POST">
@@ -136,11 +137,13 @@
                         </form>
                     </li>
                 @else
-                    <li>
-                        <button class="btn btn-success md-trigger" data-modal="modal-golive">GO
-                            LIVE</button>
+                    @if (auth()->user()->role === 'presenter')
+                        <li>
+                            <button class="btn btn-success md-trigger" data-modal="modal-golive">GO
+                                LIVE</button>
 
-                    </li>
+                        </li>
+                    @endif
                     <li>
                         <div class="dropdown drp-user">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Players;
+use App\Models\Presenter_Sessions;
 use App\Models\Radio;
+use App\Models\Radio_Mpesa;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -30,6 +32,15 @@ class AdminController extends Controller
             $totalToday = Players::whereDate('TransTime', date('Y-m-d'))->sum('TransAmount');
         }
         return view('dashboard', ['dailyTotals' => $dailyTotals, 'totalToday' => $totalToday]);
+    }
+
+
+    public function stop_session(User $presenter)
+    {
+        Presenter_Sessions::where('radio_id', $presenter->radio->id)->where('status', 1)->update([
+            'status' => 0,
+        ]);
+        return redirect()->back();
     }
 
     public function players()

@@ -35,6 +35,9 @@ Route::prefix('/admin')->middleware(['auth'])->middleware('presenter')->group(fu
     Route::controller(AdminController::class)->group(function () {
         Route::get('/', 'dashboard')->name('dashboard');
         Route::get('/players', 'players')->name('players');
+
+        // MANAGE SESSIONS
+        Route::post('/stop_session/{presenter}', 'stop_session')->name('stop_presenter_session');
     });
 
     Route::controller(PresenterController::class)->prefix('/presenters')->group(function () {
