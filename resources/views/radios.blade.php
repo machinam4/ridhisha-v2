@@ -73,7 +73,7 @@
                                                             <div class="form-group">
                                                                 <label class="form-label" for="exampleSelect1">Type</label>
                                                                 <select class="form-control" id="exampleSelect1"
-                                                                    name="shortcode">
+                                                                    name="type">
                                                                     <option value="paybill" @selected($radio->type == 'paybill')>
                                                                         Paybill</option>
                                                                     <option value="till" @selected($radio->type == 'till')>
@@ -148,7 +148,7 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="exampleSelect1">Type</label>
-                        <select class="form-control" id="exampleSelect1" name="shortcode">
+                        <select class="form-control" id="exampleSelect1" name="type">
                             <option value="paybill">Paybill</option>
                             <option value="till">Till/Buy Goods</option>
                         </select>
