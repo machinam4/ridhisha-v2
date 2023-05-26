@@ -36,15 +36,18 @@ class RadioController extends Controller
     {
         $radio = auth()->user();
         if ($radio->type == 'paybill') {
-            $last_index = Players::select('id')->where('BusinessShortCode', $radio->shortcode)->where('BillRefNumber', 'LIKE', '%' . $radio->account . '%')->latest()->first();
+            $last_index = Players::where('BusinessShortCode', $radio->shortcode)->where('BillRefNumber', 'LIKE', '%' . $radio->account . '%')->latest()->first();
         } else {
-            $last_index = Players::select('id')->where('BusinessShortCode', $radio->shortcode)->latest()->first();
-        }
-        if ($last_index == null) {
-            $last_index = 0;
+            $last_index = Players::where('BusinessShortCode', $radio->shortcode)->latest()->first();
         }
 
-        return view('players', ['last_index' => $last_index]);
+        if ($last_index == null) {
+            $last_index_id = 0;
+        } else {
+            $last_index_id = $last_index->id;
+        }
+
+        return view('players', ['last_index' => $last_index_id]);
     }
     public function online($index)
     {
