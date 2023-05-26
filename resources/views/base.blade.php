@@ -62,11 +62,13 @@
                     <li class="nav-item pcoded-menu-caption">
                         <label>Navigation</label>
                     </li>
-                    <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item">
-                        <a href="{{ Route('dashboard') }}" class="nav-link"><span class="pcoded-micon"><i
-                                    class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
-                    </li>
+
                     @if (auth()->user()->role === 'radio')
+                        <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item">
+                            <a href="{{ Route('radio_dashboard') }}" class="nav-link"><span class="pcoded-micon"><i
+                                        class="feather icon-home"></i></span><span
+                                    class="pcoded-mtext">Dashboard</span></a>
+                        </li>
                         <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item">
                             <a href="{{ Route('radio_players') }}" class="nav-link"><span class="pcoded-micon"><i
                                         class="feather icon-users"></i></span><span
@@ -74,6 +76,11 @@
                         </li>
                     @endif
                     @if (auth()->user()->role != 'radio')
+                        <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item">
+                            <a href="{{ Route('dashboard') }}" class="nav-link"><span class="pcoded-micon"><i
+                                        class="feather icon-home"></i></span><span
+                                    class="pcoded-mtext">Dashboard</span></a>
+                        </li>
                         <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item">
                             <a href="{{ Route('radios') }}" class="nav-link"><span class="pcoded-micon"><i
                                         class="feather icon-home"></i></span><span
@@ -109,7 +116,8 @@
                     <i class="fas fa-bolt"></i>
                 </div>
                 <span class="b-title">Dasho</span> -->
-                <img src="{{ asset('assets/images/ridhishajamii-word-logo.svg') }}" alt="" class="logo images">
+                <img src="{{ asset('assets/images/ridhishajamii-word-logo.svg') }}" alt=""
+                    class="logo images">
                 <img src="{{ asset('assets/images/ridhishajamii-icon-logo.svg') }}" alt=""
                     class="logo-thumb images">
             </a>

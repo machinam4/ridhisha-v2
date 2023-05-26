@@ -25,15 +25,6 @@ class AdminController extends Controller
         return view('dashboard', ['dailyTotals' => $dailyTotals, 'totalToday' => $totalToday]);
     }
 
-
-    public function stop_session(User $presenter)
-    {
-        Presenter_Sessions::where('radio_id', $presenter->radio->id)->where('status', 1)->update([
-            'status' => 0,
-        ]);
-        return redirect()->back();
-    }
-
     public function players()
     {
         return view('dashboard');
