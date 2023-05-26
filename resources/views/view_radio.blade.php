@@ -8,21 +8,23 @@
     <div class="row">
         <!-- Add rows table start -->
         <div class="col-sm-12 col-md-12">
-            <div class="col-md-3">
-                <div class="card bg-c-blue order-card">
-                    <div class="card-body">
-                        <h6 class="m-b-20">Total Today</h6>
-                        <h2 class="text-left"><span id="totalAmount">{{ $totalToday }}</span></h2>
-                    </div>
+            <div class="card bg-c-blue order-card">
+                <div class="card-body">
+                    <h6 class="m-b-20"><a href="{{ url()->previous() }}" type="submit"
+                            class="btn btn-success mt-2 mb-2">Back</a></h6>
+                    <h2 class="text-left">{{ $radio->name }}</h2>
+                    <p class="m-b-0 text-right">Shortcode: {{ $radio->shortcode }} <span class="float-left">Account :
+                            {{ $radio->account }}</span></p>
                 </div>
             </div>
             <div class="card">
                 <div class="card-header">
-                    <h5>{{ auth()->user()->firstname . ' ' . auth()->user()->lastname }}</h5>
+                    <h5>{{ $radio->name }}</h5>
                 </div>
                 <div class="card-body">
                     <div class="dt-responsive table-responsive">
                         <table id="add-row-table" class="table  table-striped table-bordered nowrap">
+
                             <thead>
                                 <tr>
                                     <th>Date</th>
@@ -30,10 +32,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($dailyTotals as $total)
+                                @foreach ($dailyTotals as $totals)
                                     <tr>
-                                        <td>{{ $total->TransTime }}</td>
-                                        <td>{{ $total->TransAmount }}</td>
+                                        <td>{{ $totals->TransTime }}</td>
+                                        <td>{{ $totals->TransAmount }}</td>
                                     </tr>
                                 @endforeach
                             <tfoot>
@@ -41,6 +43,7 @@
                                 <th>Amount</th>
                             </tfoot>
                             </tbody>
+
                         </table>
                     </div>
                 </div>

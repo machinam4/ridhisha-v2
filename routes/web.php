@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MpesaController;
-use App\Http\Controllers\PresenterController;
 use App\Http\Controllers\RadioController;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
@@ -22,37 +21,23 @@ use Illuminate\Support\Facades\Route;
 //     dd(now()->subMonth());
 //     return view('welcome');
 // });
-Route::middleware(['auth'])->controller(PresenterController::class)->group(function () {
-    Route::get('/', 'dashboard')->name('presenter_dashboard');
-    Route::get('/players', 'players')->name('presenter_players');
-    Route::get('/online/{index}', 'online')->name('presenter_online');
-
-    Route::post('/start_session', 'start_session')->name('start_session');
-    Route::post('/stop_session', 'stop_session')->name('stop_session');
+Route::middleware(['auth'])->controller(RadioController::class)->group(function () {
+    Route::get('/', 'dashboard')->name('radio_dashboard');
+    Route::get('/players', 'players')->name('radio_players');
+    Route::get('/online/{index}', 'online')->name('radio_online');
 });
 
-Route::prefix('/admin')->middleware(['auth'])->middleware('presenter')->group(function () {
+Route::prefix('/admin')->middleware(['auth'])/*->middleware('radio')*/->group(function () {
     Route::controller(AdminController::class)->group(function () {
         Route::get('/', 'dashboard')->name('dashboard');
         Route::get('/players', 'players')->name('players');
-
-        // MANAGE SESSIONS
-        Route::post('/stop_session/{presenter}', 'stop_session')->name('stop_presenter_session');
-    });
-
-    Route::controller(PresenterController::class)->prefix('/presenters')->group(function () {
-        Route::get('/', 'presenters')->name('presenters');
-        Route::get('/{presenter}', 'presenter_view')->name('presenter_view');
-        Route::Post('/add', 'add_presenter')->name('add_presenter');
-        Route::Post('/update/{presenter}', 'update_presenter')->name('update_presenter');
-        Route::get('/delete/{presenter}', 'delete_presenter')->name('delete_presenter');
     });
 
     Route::controller(RadioController::class)->prefix('/radios')->group(function () {
         Route::get('/', 'radios')->name('radios');
+        Route::get('/{radio}', 'radio_view')->name('radio_view');
         Route::Post('/add', 'add_radio')->name('add_radio');
         Route::Post('/update/{radio}', 'update_radio')->name('update_radio');
-        Route::Post('/mpesas/{radio}', 'link_mpesas')->name('link_mpesas');
         Route::get('/delete/{radio}', 'delete_radio')->name('delete_radio');
     });
 

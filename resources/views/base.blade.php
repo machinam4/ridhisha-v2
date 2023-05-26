@@ -66,19 +66,14 @@
                         <a href="{{ Route('dashboard') }}" class="nav-link"><span class="pcoded-micon"><i
                                     class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
                     </li>
-                    @if (auth()->user()->role === 'presenter')
+                    @if (auth()->user()->role === 'radio')
                         <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item">
-                            <a href="{{ Route('presenter_players') }}" class="nav-link"><span class="pcoded-micon"><i
+                            <a href="{{ Route('radio_players') }}" class="nav-link"><span class="pcoded-micon"><i
                                         class="feather icon-users"></i></span><span
                                     class="pcoded-mtext">Players</span></a>
                         </li>
                     @endif
-                    @if (auth()->user()->role != 'presenter')
-                        <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item">
-                            <a href="{{ Route('presenters') }}" class="nav-link"><span class="pcoded-micon"><i
-                                        class="feather icon-home"></i></span><span
-                                    class="pcoded-mtext">Presenters</span></a>
-                        </li>
+                    @if (auth()->user()->role != 'radio')
                         <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item">
                             <a href="{{ Route('radios') }}" class="nav-link"><span class="pcoded-micon"><i
                                         class="feather icon-home"></i></span><span
@@ -114,8 +109,7 @@
                     <i class="fas fa-bolt"></i>
                 </div>
                 <span class="b-title">Dasho</span> -->
-                <img src="{{ asset('assets/images/ridhishajamii-word-logo.svg') }}" alt=""
-                    class="logo images">
+                <img src="{{ asset('assets/images/ridhishajamii-word-logo.svg') }}" alt="" class="logo images">
                 <img src="{{ asset('assets/images/ridhishajamii-icon-logo.svg') }}" alt=""
                     class="logo-thumb images">
             </a>
@@ -127,48 +121,30 @@
             <a href="#!" class="mob-toggler"></a>
 
             <ul class="navbar-nav ml-auto">
+                <li>
+                    <div class="dropdown drp-user">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon feather icon-user"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right profile-notification">
+                            <div class="pro-head">
+                                <span>{{ auth()->user()->firstname . ' ' . auth()->user()->lastname }}</span>
 
-                @if (auth()->user()->insession())
-                    <li>
-                        <form action="{{ Route('stop_session') }}" method="POST">
-                            @csrf
-                            <button class="btn btn-danger" type="submit">END
-                                LIVE</button>
-                        </form>
-                    </li>
-                @else
-                    @if (auth()->user()->role === 'presenter')
-                        <li>
-                            <button class="btn btn-success md-trigger" data-modal="modal-golive">GO
-                                LIVE</button>
-
-                        </li>
-                    @endif
-                    <li>
-                        <div class="dropdown drp-user">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="icon feather icon-user"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right profile-notification">
-                                <div class="pro-head">
-                                    <span>{{ auth()->user()->firstname . ' ' . auth()->user()->lastname }}</span>
-
-                                </div>
-                                <ul class="pro-body">
-                                    <li><a href="#!" class="dropdown-item"><i class="feather icon-user"></i>
-                                            Profile</a></li>
-                                    <li>
-                                        <form action="{{ route('logout') }}" method="POST">
-                                            @csrf
-                                            <button type="submit" class="dropdown-item"><i
-                                                    class="feather icon-log-out"></i> Logout</button>
-                                        </form>
-                                    </li>
-                                </ul>
                             </div>
+                            <ul class="pro-body">
+                                <li><a href="#!" class="dropdown-item"><i class="feather icon-user"></i>
+                                        Profile</a></li>
+                                <li>
+                                    <form action="{{ route('logout') }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item"><i
+                                                class="feather icon-log-out"></i> Logout</button>
+                                    </form>
+                                </li>
+                            </ul>
                         </div>
-                    </li>
-                @endif
+                    </div>
+                </li>
             </ul>
         </div>
     </header>
@@ -207,35 +183,6 @@
                             <!-- [ Main Content ] start -->
                             @yield('contents')
                             <!-- [ Main Content ] end -->
-
-                            {{-- go live modal --}}
-                            <div class="md-modal md-effect-11" id="modal-golive">
-                                <div class="md-content">
-                                    <h3 class="bg-primary">Select Short Code</h3>
-                                    <div>
-                                        <form action="{{ Route('start_session') }}" method="post">
-                                            @csrf
-                                            <div class="form-group">
-                                                <label class="form-label" for="exampleSelect1">Select
-                                                    Shortcode</label>
-                                                <select class="form-control" id="exampleSelect1" name="shortcode">
-                                                    @foreach (auth()->user()->radio->mpesas as $mpesa)
-                                                        <option value="{{ $mpesa->id }}">
-                                                            {{ $mpesa->mpesa->shortcode }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <button type="submit" class="btn btn-success mt-2 mb-2">Submit</button>
-                                        </form>
-                                        <div>
-
-                                            <button class="btn btn-light md-close">Cancel</button>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                            {{-- go live modal --}}
                         </div>
                     </div>
                 </div>

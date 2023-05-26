@@ -23,18 +23,7 @@ class Players extends Model
         'ThirdPartyTransID',
         'MSISDN',
         'FirstName',
-        'user_id',
-        'session_id',
     ];
-
-    public function presenter()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-    public function Presenter_session()
-    {
-        return $this->belongsTo(Presenter_Sessions::class, 'session_id');
-    }
 
     public function prunable()
     {

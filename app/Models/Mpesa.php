@@ -20,9 +20,4 @@ class Mpesa extends Model
         'b2cPassword',
         // 'radio_id',
     ];
-
-    public function radio()
-    {
-        return $this->hasMany(Radio_Mpesa::class);
-    }
 }

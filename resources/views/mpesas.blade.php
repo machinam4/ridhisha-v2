@@ -31,7 +31,6 @@
                             <thead>
                                 <tr>
                                     <th>Mpesa ShortCode</th>
-                                    <th>Radio Stations</th>
                                     <th>Type</th>
                                     <th>Organization Name</th>
                                     <th>M-pesa Username</th>
@@ -43,13 +42,6 @@
                                 @foreach ($mpesas as $mpesa)
                                     <tr>
                                         <td>{{ $mpesa->shortcode }}</td>
-                                        <td>
-                                            @foreach ($mpesa->radio as $radio)
-                                                <ul>
-                                                    <li>{{ $radio->radio->name }}</li>
-                                                </ul>
-                                            @endforeach
-                                        </td>
                                         <td>
                                             @if ($mpesa->type === 'till')
                                                 Till / Buy Goods
