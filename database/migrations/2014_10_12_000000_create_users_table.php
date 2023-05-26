@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('username')->unique();
             $table->string('role');
+            $table->string('type')->nullable();
             $table->string('shortcode')->nullable();
             $table->string('account')->nullable();
             $table->string('password');

@@ -71,6 +71,16 @@
                                                                 </select>
                                                             </div>
                                                             <div class="form-group">
+                                                                <label class="form-label" for="exampleSelect1">Type</label>
+                                                                <select class="form-control" id="exampleSelect1"
+                                                                    name="shortcode">
+                                                                    <option value="paybill" @selected($radio->type == 'paybill')>
+                                                                        Paybill</option>
+                                                                    <option value="till" @selected($radio->type == 'till')>
+                                                                        Till/Buy Goods</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
                                                                 <label class="form-label">Account</label>
                                                                 <input type="text" name="account"
                                                                     value="{{ $radio->account }}" class="form-control"
@@ -134,6 +144,13 @@
                             @foreach ($mpesas as $mpesa)
                                 <option value="{{ $mpesa->shortcode }}">{{ $mpesa->shortcode }}</option>
                             @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="exampleSelect1">Type</label>
+                        <select class="form-control" id="exampleSelect1" name="shortcode">
+                            <option value="paybill">Paybill</option>
+                            <option value="till">Till/Buy Goods</option>
                         </select>
                     </div>
                     <div class="form-group">

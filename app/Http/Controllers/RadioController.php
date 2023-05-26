@@ -15,29 +15,53 @@ class RadioController extends Controller
     {
 
         $radio = auth()->user();
-        $dailyTotals = Players::select(
-            DB::raw("(sum(TransAmount)) as TransAmount"),
-            DB::raw("(DATE_FORMAT(TransTime, '%d-%M-%Y')) as TransTime")
-        )->groupBy(DB::raw("DATE_FORMAT(TransTime, '%d-%M-%Y')"))->where('BusinessShortCode', $radio->shortcode)->where('BillRefNumber', 'LIKE', '%' . $radio->account . '%')->get();
-        $totalToday = Players::whereDate('TransTime', date('Y-m-d'))->where('BusinessShortCode', $radio->shortcode)->where('BillRefNumber', 'LIKE', '%' . $radio->account . '%')->sum('TransAmount');
-        // $totalAmount = Players::where('user_id', $radio)->sum('TransAmount');
+        if ($radio->type == 'paybill') {
+            $dailyTotals = Players::select(
+                DB::raw("(sum(TransAmount)) as TransAmount"),
+                DB::raw("(DATE_FORMAT(TransTime, '%d-%M-%Y')) as TransTime")
+            )->groupBy(DB::raw("DATE_FORMAT(TransTime, '%d-%M-%Y')"))->where('BusinessShortCode', $radio->shortcode)->where('BillRefNumber', 'LIKE', '%' . $radio->account . '%')->get();
+            $totalToday = Players::whereDate('TransTime', date('Y-m-d'))->where('BusinessShortCode', $radio->shortcode)->where('BillRefNumber', 'LIKE', '%' . $radio->account . '%')->sum('TransAmount');
+        } else {
+            $dailyTotals = Players::select(
+                DB::raw("(sum(TransAmount)) as TransAmount"),
+                DB::raw("(DATE_FORMAT(TransTime, '%d-%M-%Y')) as TransTime")
+            )->groupBy(DB::raw("DATE_FORMAT(TransTime, '%d-%M-%Y')"))->where('BusinessShortCode', $radio->shortcode)->get();
+            $totalToday = Players::whereDate('TransTime', date('Y-m-d'))->where('BusinessShortCode', $radio->shortcode)->sum('TransAmount');
+        }
+
 
         return view('dashboard', ['dailyTotals' => $dailyTotals, 'totalToday' => $totalToday]);
     }
     public function players()
     {
         $radio = auth()->user();
-        $last_index = Players::where('BusinessShortCode', $radio->shortcode)->where('BillRefNumber', 'LIKE', '%' . $radio->account . '%')->latest()->first();
-        return view('players', ['last_index' => $last_index->id]);
+        if ($radio->type == 'paybill') {
+            $last_index = Players::select('id')->where('BusinessShortCode', $radio->shortcode)->where('BillRefNumber', 'LIKE', '%' . $radio->account . '%')->latest()->first();
+        } else {
+            $last_index = Players::select('id')->where('BusinessShortCode', $radio->shortcode)->latest()->first();
+        }
+        if ($last_index == null) {
+            $last_index = 0;
+        }
+
+        return view('players', ['last_index' => $last_index]);
     }
     public function online($index)
     {
+        $radio = auth()->user();
+        if ($radio->type == 'paybill') {
+            $data = [
+                'new_players' => Players::where('id', '>', $index)->where('BusinessShortCode', $radio->shortcode)->where('BillRefNumber', 'LIKE', '%' . $radio->account . '%')->get(),
+                'totalAmount' => Players::whereDate('TransTime', date('Y-m-d'))->where('BusinessShortCode', $radio->shortcode)->where('BillRefNumber', 'LIKE', '%' . $radio->account . '%')->sum('TransAmount'),
+            ];
+        } else {
+            $data = [
+                'new_players' => Players::where('id', '>', $index)->where('BusinessShortCode', $radio->shortcode)->get(),
+                'totalAmount' => Players::whereDate('TransTime', date('Y-m-d'))->where('BusinessShortCode', $radio->shortcode)->sum('TransAmount'),
+            ];
+        }
 
-        $data = [
-            'new_players' => Players::where('id', '>', $index)->where('BusinessShortCode', auth()->user()->shortcode)->where('BillRefNumber', 'LIKE', '%' . auth()->user()->account . '%')->get(),
-            'totalAmount' => Players::whereDate('TransTime', date('Y-m-d'))->where('BusinessShortCode', auth()->user()->shortcode)->where('BillRefNumber', 'LIKE', '%' . auth()->user()->account . '%')->sum('TransAmount'),
-            // 'totalAmount' => Players::where('TransTime', '>', auth()->user()->sessions->last()->created_at)->where('user_id', auth()->user()->id)->sum('TransAmount'),
-        ];
+
         return $data;
         // return view('session');
         // return view('players');
@@ -52,14 +76,17 @@ class RadioController extends Controller
 
     public function radio_view(Radio $radio)
     {
-
-        $dailyTotals = Players::select(
-            DB::raw("(sum(TransAmount)) as TransAmount"),
-            DB::raw("(DATE_FORMAT(TransTime, '%d-%M-%Y')) as TransTime")
-        )->groupBy(DB::raw("DATE_FORMAT(TransTime, '%d-%M-%Y')"))->where('BusinessShortCode', $radio->shortcode)->where('BillRefNumber', 'LIKE', '%' . $radio->account . '%')->get();
-
-        // $totalToday = Players::whereDate('TransTime', date('Y-m-d'))->where('user_id', $radio)->sum('TransAmount');
-        // dd($dailyTotals);
+        if ($radio->type == 'paybill') {
+            $dailyTotals = Players::select(
+                DB::raw("(sum(TransAmount)) as TransAmount"),
+                DB::raw("(DATE_FORMAT(TransTime, '%d-%M-%Y')) as TransTime")
+            )->groupBy(DB::raw("DATE_FORMAT(TransTime, '%d-%M-%Y')"))->where('BusinessShortCode', $radio->shortcode)->where('BillRefNumber', 'LIKE', '%' . $radio->account . '%')->get();
+        } else {
+            $dailyTotals = Players::select(
+                DB::raw("(sum(TransAmount)) as TransAmount"),
+                DB::raw("(DATE_FORMAT(TransTime, '%d-%M-%Y')) as TransTime")
+            )->groupBy(DB::raw("DATE_FORMAT(TransTime, '%d-%M-%Y')"))->where('BusinessShortCode', $radio->shortcode)->get();
+        }
         return view('view_radio', ['radio' => $radio, 'dailyTotals' => $dailyTotals]);
     }
     public function add_radio(Request $request)
@@ -68,6 +95,7 @@ class RadioController extends Controller
             'name' => $request->name,
             'username' => $request->username,
             'role' => $request->role,
+            'type' => $request->type,
             'password' => Hash::make($request->password),
             'shortcode' => $request->shortcode,
             'account' => $request->account,
