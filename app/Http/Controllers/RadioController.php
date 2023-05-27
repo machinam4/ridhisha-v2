@@ -37,8 +37,10 @@ class RadioController extends Controller
         $radio = auth()->user();
         if ($radio->type == 'paybill') {
             $last_index = Players::where('BusinessShortCode', $radio->shortcode)->where('BillRefNumber', 'LIKE', '%' . $radio->account . '%')->latest()->first();
+            $playersget = Players::whereDate('TransTime', date('Y-m-d'))->where('BusinessShortCode', $radio->shortcode)->where('BillRefNumber', 'LIKE', '%' . $radio->account . '%')->get();
         } else {
             $last_index = Players::where('BusinessShortCode', $radio->shortcode)->latest()->first();
+            $playersget = Players::whereDate('TransTime', date('Y-m-d'))->where('BusinessShortCode', $radio->shortcode)->get();
         }
 
         if ($last_index == null) {
@@ -47,7 +49,7 @@ class RadioController extends Controller
             $last_index_id = $last_index->id;
         }
 
-        return view('players', ['last_index' => $last_index_id]);
+        return view('players', ['last_index' => $last_index_id, 'players' => $playersget]);
     }
     public function online($index)
     {
