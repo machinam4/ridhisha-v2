@@ -103,6 +103,46 @@
                                                 Records</button>
                                             <button type="button" class="btn btn-danger"
                                                 onclick="deleteItem({{ $radio }})">Delete</button>
+                                            {{-- change password --}}
+                                            <button class="btn btn-warning md-trigger"
+                                                data-modal="modal-password-{{ $radio->id }}">Change Password</button>
+                                            {{-- change Password ModaL --}}
+                                            <div class="md-modal md-effect-11" id="modal-password-{{ $radio->id }}">
+                                                <div class="md-content">
+                                                    <h3 class="bg-primary">Change
+                                                        {{ $radio->name }} password</h3>
+                                                    <div>
+                                                        <form action="{{ Route('update_radio_password', $radio) }}"
+                                                            method="post">
+                                                            @csrf
+                                                            <div class="form-group">
+                                                                <label class="form-label"
+                                                                    for="exampleInputPassword1">Password</label>
+                                                                <input type="password" name="password" class="form-control"
+                                                                    id="exampleInputPassword1" placeholder="Password"
+                                                                    required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label"
+                                                                    for="exampleInputPassword1">Confirm Password</label>
+                                                                <input type="password" name="confirmPassword"
+                                                                    class="form-control" id="exampleInputPassword1"
+                                                                    placeholder="Confirm Password" required>
+                                                            </div>
+                                                            <button type="submit"
+                                                                class="btn btn-success mt-2 mb-2">Submit</button>
+                                                            <div>
+
+                                                                <button type="reset"
+                                                                    class="btn btn-light md-close">Cancel</button>
+                                                            </div>
+                                                        </form>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {{-- End Change password ModaL --}}
                                         </td>
                                     </tr>
                                 @endforeach

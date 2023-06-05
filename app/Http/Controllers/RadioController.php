@@ -112,6 +112,15 @@ class RadioController extends Controller
         $radio->update($request->all());
         return redirect()->route('radios');
     }
+    public function update_radio_password(Request $request, Radio $radio)
+    {
+        if ($request->password != $request->confirmPassword) {
+            return back()->with('message', "Password do not match");
+        }
+        $radio->password = Hash::make($request->password);
+        $radio->save();
+        return redirect()->route('radios')->with('message', "Password changed successfully");
+    }
     public function delete_radio(Radio $radio)
     {
         $radio->delete();

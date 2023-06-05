@@ -38,6 +38,7 @@ Route::prefix('/admin')->middleware(['auth'])/*->middleware('radio')*/->group(fu
         Route::get('/{radio}', 'radio_view')->name('radio_view');
         Route::Post('/add', 'add_radio')->name('add_radio');
         Route::Post('/update/{radio}', 'update_radio')->name('update_radio');
+        Route::Post('/update_password/{radio}', 'update_radio_password')->name('update_radio_password');
         Route::get('/delete/{radio}', 'delete_radio')->name('delete_radio');
     });
 
